@@ -1,0 +1,110 @@
+%% PARAMETER INITIALIZATION
+clear all
+clc
+
+y  = [0 10];    % Init and final position
+vy = [0 5];     % Init and final velocity
+ay = [0 3];     % Init and final accleration
+T  = [0 3];     % Init and final time
+
+
+%% SOLVER a0 a1 a2 a3 a4 a5
+syms a0 a1 a2 a3 a4 a5 t
+
+eqn1 = a0 + a1*T(1) + a2*T(1)^2 + a3*T(1)^3 + a4*T(1)^4 + a5*T(1)^5 == y(1);
+eqn2 = a0 + a1*T(2) + a2*T(2)^2 + a3*T(2)^3 + a4*T(2)^4 + a5*T(2)^5 == y(2);
+eqn3 = a1 + 2*a2*T(1) + 3*a3*T(1)^2 + 4*a4*T(1)^3 + 5*a5*T(1)^4 == vy(1);
+eqn4 = a1 + 2*a2*T(2) + 3*a3*T(2)^2 + 4*a4*T(2)^3 + 5*a5*T(2)^4 == vy(2);
+eqn5 = 2*a2 + 6*a3*T(1) + 12*a4*T(1)^2 + 20*a5*T(1)^3 == ay(1);
+eqn6 = 2*a2 + 6*a3*T(2) + 12*a4*T(2)^2 + 20*a5*T(2)^3 == ay(2);
+
+
+equations = [eqn1;eqn2;eqn3;eqn4;eqn5;eqn6];
+disp('Original Equations')
+disp(equations)
+
+sol = solve([eqn1 eqn2 eqn3 eqn4 eqn5 eqn6],[a0 a1 a2 a3 a4 a5 t]);
+a0 = sol.a0;
+a1 = sol.a1;
+a2 = sol.a2;
+a3 = sol.a3;
+a4 = sol.a4;
+a5 = sol.a5;
+
+solutions = [a0;a1;a2;a3;a4;a5];
+disp('Solutions')
+disp(solutions)
+
+
+%% SYSTEM AND GRAPH
+syms y(t) y_1(t) y_2(t)
+ 
+y(t)   = a0 + a1*t + a2*t^2 + a3*t^3 + a4*t^4 + a5*t^5;
+y_1(t) = diff(y,t);
+y_2(t) = diff(y,t,2);
+y_3(t) = diff(y,t,3);
+y_4(t) = diff(y,t,4);
+
+ys=[y(t);y_1(t);y_2(t);y_3(t);y_4(t)];
+disp('Solved Equations')
+disp(ys)
+
+figure(1)
+subplot(5,1,1)
+fplot(y(t),[T(1) T(2)])
+title('y displacement')
+
+subplot(5,1,2)
+fplot(y_1(t),[T(1) T(2)])
+title('y velocity')
+
+subplot(5,1,3)
+fplot(y_2(t),[T(1) T(2)])
+title('y acceleration')
+
+subplot(5,1,4)
+fplot(y_3(t),[T(1) T(2)])
+title('y jerk')
+
+subplot(5,1,5)
+fplot(y_4(t),[T(1) T(2)])
+title('y jounce')
+
+%% INTERPOLATING ?
+
+% syms p(t)
+% 
+% p0 = 5;
+% pt = 10; 
+% 
+% p(t) = (1-y(t))*p0+(y(t)*pt);
+% p_1(t) = diff(p,t);
+% p_2(t) = diff(p,t,2);
+% p_3(t) = diff(p,t,3);
+% p_4(t) = diff(p,t,4);
+% 
+% 
+% figure(2)
+% subplot(3,1,1)
+% fplot(p(t),[T(1) T(2)])
+% 
+% subplot(3,1,2)
+% fplot(p_1(t),[T(1) T(2)])
+% 
+% subplot(3,1,3)
+% fplot(p_2(t),[T(1) T(2)])
+
+%% Sampling Graph
+
+% sample = 20
+% n = linspace(T(1),T(2),sample);
+% disp(y(n))
+% 
+% figure(2)
+% stem(y(n))
+
+
+
+
+
+
