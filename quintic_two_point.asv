@@ -2,10 +2,10 @@
 clear all
 clc
 
-y  = [0 1];    % Init and final position
-vy = [0 1];     % Init and final velocity
+y  = [0 20];    % Init and final position
+vy = [0 0];     % Init and final velocity
 ay = [0 0];     % Init and final accleration
-T  = [0 10];     % Init and final time
+T  = [0 15];     % Init and final time
 
 
 %% SOLVER a0 a1 a2 a3 a4 a5
@@ -50,49 +50,49 @@ disp('Solved Equations')
 disp(ys)
 
 figure(1)
-subplot(3,1,1)
+subplot(5,1,1)
 fplot(y(t),[T(1) T(2)])
 title('y displacement')
 
-subplot(3,1,2)
+subplot(5,1,2)
 fplot(y_1(t),[T(1) T(2)])
 title('y velocity')
 
-subplot(3,1,3)
+subplot(5,1,3)
 fplot(y_2(t),[T(1) T(2)])
 title('y acceleration')
 
-% subplot(5,1,4)
-% fplot(y_3(t),[T(1) T(2)])
-% title('y jerk')
+subplot(5,1,4)
+fplot(y_3(t),[T(1) T(2)])
+title('y jerk')
+
+subplot(5,1,5)
+fplot(y_4(t),[T(1) T(2)])
+title('y jounce')
+
+%% INTERPOLATING ?
+
+% syms p(t)
 % 
-% subplot(5,1,5)
-% fplot(y_4(t),[T(1) T(2)])
-% title('y jounce')
-
-%% INTERPOLATING BETWEEN TWO DIFFERENT ORIENTATION
-
-syms p(t)
-
-p0 = 0;
-pt = 1; 
-
-p(t) = (1-y(t))*p0+(y(t)*pt);
-p_1(t) = diff(p,t);
-p_2(t) = diff(p,t,2);
-p_3(t) = diff(p,t,3);
-p_4(t) = diff(p,t,4);
-
-
-figure(2)
-subplot(3,1,1)
-fplot(p(t),[T(1) T(2)])
-
-subplot(3,1,2)
-fplot(p_1(t),[T(1) T(2)])
-
-subplot(3,1,3)
-fplot(p_2(t),[T(1) T(2)])
+% p0 = 5;
+% pt = 10; 
+% 
+% p(t) = (1-y(t))*p0+(y(t)*pt);
+% p_1(t) = diff(p,t);
+% p_2(t) = diff(p,t,2);
+% p_3(t) = diff(p,t,3);
+% p_4(t) = diff(p,t,4);
+% 
+% 
+% figure(2)
+% subplot(3,1,1)
+% fplot(p(t),[T(1) T(2)])
+% 
+% subplot(3,1,2)
+% fplot(p_1(t),[T(1) T(2)])
+% 
+% subplot(3,1,3)
+% fplot(p_2(t),[T(1) T(2)])
 
 %% Sampling Graph
 
